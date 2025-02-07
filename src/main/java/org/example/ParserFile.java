@@ -1,12 +1,8 @@
 package org.example;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +10,7 @@ import java.util.Map;
 
 public class ParserFile {
     private final Map<String, List<String>> map = new HashMap<>();
+    private final Util util = new Util();
 
     public Map<String, List<String>> getMap() {
         return map;
@@ -25,7 +22,7 @@ public class ParserFile {
         map.put("strings", new ArrayList<>());
         map.put("floats", new ArrayList<>());
 
-        Path path = fileToPath(fileName);
+        Path path = util.fileToPath(fileName);
 
         List<String> lines = null;
         try {
@@ -43,20 +40,14 @@ public class ParserFile {
                 map.get("strings").add(line);
             }
         }
-        return map;
-    }
 
-    public Path fileToPath(String fileName) {
-        Path path = Paths.get(fileName).toAbsolutePath().normalize();
-
-        if (Files.notExists(path)) {
-            try {
-                throw new Exception("File not exists");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+        for (String key : map.keySet()) {
+            if (map.get(key).isEmpty()) {
+                map.remove(key);
             }
         }
-        return path;
+
+        return map;
     }
 
     private boolean isLong(String line) {

@@ -4,10 +4,6 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,19 +27,18 @@ public class App {
     @Parameter(description = "Input files")
     private List<String> files = new ArrayList<>();
 
-    public static void main(String[] args) throws URISyntaxException, IOException {
+    public static void main(String[] args) throws IOException {
         App app = new App();
         JCommander.newBuilder().addObject(app).build().parse(args);
 
         ParserFile parserFile = new ParserFile();
+        CreateFile createFile = new CreateFile(parserFile);
         StatisticFile statisticFile = new StatisticFile(parserFile);
 
         for (String fileName : app.files) {
             parserFile.parse(fileName);
-            parserFile.getMap().forEach((k, v) -> {
-                System.out.println(k);
-                System.out.println(v);
-            });
+
+            createFile.createFile(fileName, app.prefix, app.path, app.append);
         }
 
         if (app.briefStatistics) {

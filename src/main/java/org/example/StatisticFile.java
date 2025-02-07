@@ -1,9 +1,7 @@
 package org.example;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class StatisticFile {
     private final ParserFile parserFile;
@@ -79,9 +77,4 @@ public class StatisticFile {
             }
         }
     }
-
-//    private void printStatistics(List<String> list) {
-//        List<Number> numbers = new ArrayList<>();
-//        numbers.addAll(list.stream().map().collect(Collectors.toList()));
-//    }
 }
