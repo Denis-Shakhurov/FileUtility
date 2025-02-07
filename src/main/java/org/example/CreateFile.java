@@ -15,15 +15,15 @@ public class CreateFile {
         this.parserFile = parserFile;
     }
 
-    public void createFile(String fileName, String prefix, String path, boolean append) throws IOException {
+    public void create(List<String> files, String path, boolean append) throws IOException {
         Util util = new Util();
-        Path pathFile = util.fileToPath(fileName);
+        Path pathFile = util.fileToPath(files.get(0));
         Path parent = path == null ? pathFile.getParent() : util.fileToPath(path);
 
         Map<String, List<String>> map = parserFile.getMap();
 
         for (String key : map.keySet()) {
-            String newFileName = prefix != null ? prefix + key + ".txt" : key + ".txt";
+            String newFileName = key + ".txt";
             Path newPathFile = parent.resolve(newFileName);
 
             if (!util.exists(newPathFile)) {

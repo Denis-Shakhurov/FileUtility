@@ -32,14 +32,12 @@ public class App {
         JCommander.newBuilder().addObject(app).build().parse(args);
 
         ParserFile parserFile = new ParserFile();
-        CreateFile createFile = new CreateFile(parserFile);
         StatisticFile statisticFile = new StatisticFile(parserFile);
+        CreateFile createFile = new CreateFile(parserFile);
 
-        for (String fileName : app.files) {
-            parserFile.parse(fileName);
+        parserFile.parse(app.files, app.prefix);
 
-            createFile.createFile(fileName, app.prefix, app.path, app.append);
-        }
+        createFile.create(app.files, app.path, app.append);
 
         if (app.briefStatistics) {
             statisticFile.getBriefStatistics(app.prefix);

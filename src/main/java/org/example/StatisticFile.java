@@ -11,28 +11,27 @@ public class StatisticFile {
     }
 
     public void getBriefStatistics(String prefix) {
-        Map<String, List<String>> map = parserFile.getMap();
+        Map<String, List<String>> mapStatistic = parserFile.getMap();
 
-        for (String key : map.keySet()) {
+        for (String key : mapStatistic.keySet()) {
             String fullNameFile = prefix == null ? key : prefix + key;
-            if (map.get(key) != null) {
-                int count = map.get(key).size();
+            if (mapStatistic.get(key) != null) {
+                int count = mapStatistic.get(key).size();
                 System.out.printf("В файл \"%s\" заисано: %d элементов.\n", fullNameFile, count);
             }
         }
     }
 
     public void getFullStatistics(String prefix) {
-        Map<String, List<String>> map = parserFile.getMap();
+        Map<String, List<String>> mapStatistic = parserFile.getMap();
 
-        for (String key : map.keySet()) {
+        for (String key : mapStatistic.keySet()) {
             String fullNameFile = prefix == null ? key : prefix + key;
-            if (map.get(key) != null && key.equals("strings")) {
-                int count = map.get(key).size();
+            if (mapStatistic.get(key) != null && key.contains("strings")) {
+                int count = mapStatistic.get(key).size();
 
-                List<Integer> list = map.get(key).stream()
+                List<Integer> list = mapStatistic.get(key).stream()
                         .map(String::length)
-                        .sorted()
                         .toList();
                 int minLength = list.stream().min(Integer::compareTo).orElse(0);
                 int maxLength = list.stream().max(Integer::compareTo).orElse(0);
@@ -40,10 +39,10 @@ public class StatisticFile {
                 System.out.printf("В файл \"%s\" заисано: %d строк.\n\t" +
                         "Минимальная длина строки: %d\n\t" +
                         "Максимальная длина строки: %d\n", fullNameFile, count, minLength, maxLength);
-            } else if (map.get(key) != null && key.equals("integers")) {
-                int count = map.get(key).size();
+            } else if (mapStatistic.get(key) != null && key.contains("integers")) {
+                int count = mapStatistic.get(key).size();
 
-                List<Long> list = map.get(key).stream()
+                List<Long> list = mapStatistic.get(key).stream()
                         .map(Long::parseLong)
                         .toList();
 
@@ -57,10 +56,10 @@ public class StatisticFile {
                         "Максимальное число: %d\n\t" +
                         "Суииа чисел: %d\n\t" +
                         "Среднее: %d\n", fullNameFile, count, min, max, sum, avg);
-            } else if (map.get(key) != null && key.equals("floats")) {
-                int count = map.get(key).size();
+            } else if (mapStatistic.get(key) != null && key.contains("floats")) {
+                int count = mapStatistic.get(key).size();
 
-                List<Float> list = map.get(key).stream()
+                List<Float> list = mapStatistic.get(key).stream()
                         .map(Float::parseFloat)
                         .toList();
 
