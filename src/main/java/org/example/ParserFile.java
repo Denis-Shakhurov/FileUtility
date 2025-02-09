@@ -15,14 +15,15 @@ public class ParserFile {
     }
 
     public void parse(List<String> files, String prefix) {
-        if (!files.isEmpty()) {
-            String fileIntegers = prefix != null ? prefix + "integers" : "integers";
-            String fileStrings = prefix != null ? prefix + "strings" : "strings";
-            String fileFloats = prefix != null ? prefix + "floats" : "floats";
+        String fileIntegers = prefix != null ? prefix + "integers" : "integers";
+        String fileStrings = prefix != null ? prefix + "strings" : "strings";
+        String fileFloats = prefix != null ? prefix + "floats" : "floats";
 
-            map.put(fileIntegers, new ArrayList<>());
-            map.put(fileStrings, new ArrayList<>());
-            map.put(fileFloats, new ArrayList<>());
+        map.put(fileIntegers, new ArrayList<>());
+        map.put(fileStrings, new ArrayList<>());
+        map.put(fileFloats, new ArrayList<>());
+
+        if (!files.isEmpty()) {
 
             for (String file : files) {
                 Path path = util.fileToPath(file);
@@ -38,15 +39,13 @@ public class ParserFile {
                         map.get(fileStrings).add(line);
                     }
                 }
-
-                for (String key : map.keySet()) {
-                    if (map.get(key).isEmpty()) {
-                        map.remove(key);
-                    }
-                }
             }
+
+            map.entrySet()
+                    .removeIf(entry -> entry.getValue().isEmpty());
+
         } else {
-            System.out.println("File name not specified!");
+            System.out.println("File name not specified! Provide a file name and try again.");
         }
     }
 
