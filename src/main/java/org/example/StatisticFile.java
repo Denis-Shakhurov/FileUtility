@@ -5,28 +5,28 @@ import java.util.Map;
 
 public class StatisticFile {
     private final ParserFile parserFile;
+    private final Map<String, List<String>> mapStatistic;
 
     public StatisticFile(ParserFile parserFile) {
         this.parserFile = parserFile;
+        mapStatistic = parserFile.getMap();
     }
 
-    public void getBriefStatistics(String prefix) {
-        Map<String, List<String>> mapStatistic = parserFile.getMap();
+    public void getBriefStatistics() {
 
         for (String key : mapStatistic.keySet()) {
-            String fullNameFile = prefix == null ? key : prefix + key;
+
             if (mapStatistic.get(key) != null) {
                 int count = mapStatistic.get(key).size();
-                System.out.printf("В файл \"%s\" заисано: %d элементов.\n", fullNameFile, count);
+                System.out.printf("In file \"%s\" added %d elements.\n", key, count);
             }
         }
     }
 
-    public void getFullStatistics(String prefix) {
-        Map<String, List<String>> mapStatistic = parserFile.getMap();
+    public void getFullStatistics() {
 
         for (String key : mapStatistic.keySet()) {
-            String fullNameFile = prefix == null ? key : prefix + key;
+
             if (mapStatistic.get(key) != null && key.contains("strings")) {
                 int count = mapStatistic.get(key).size();
 
@@ -36,9 +36,9 @@ public class StatisticFile {
                 int minLength = list.stream().min(Integer::compareTo).orElse(0);
                 int maxLength = list.stream().max(Integer::compareTo).orElse(0);
 
-                System.out.printf("В файл \"%s\" заисано: %d строк.\n\t" +
-                        "Минимальная длина строки: %d\n\t" +
-                        "Максимальная длина строки: %d\n", fullNameFile, count, minLength, maxLength);
+                System.out.printf("In file \"%s\" added %d lines.\n\t" +
+                        "Min length line: %d\n\t" +
+                        "Max length line: %d\n", key, count, minLength, maxLength);
             } else if (mapStatistic.get(key) != null && key.contains("integers")) {
                 int count = mapStatistic.get(key).size();
 
@@ -51,11 +51,11 @@ public class StatisticFile {
                 long sum = list.stream().reduce(Long::sum).orElse(0L);
                 long avg = count != 0 ? sum / count : 0;
 
-                System.out.printf("В файл \"%s\" заисано: %d целых чисел.\n\t" +
-                        "Минимальное число: %d\n\t" +
-                        "Максимальное число: %d\n\t" +
-                        "Суииа чисел: %d\n\t" +
-                        "Среднее: %d\n", fullNameFile, count, min, max, sum, avg);
+                System.out.printf("In file \"%s\" added %d numbers.\n\t" +
+                        "Min number: %d\n\t" +
+                        "Max number: %d\n\t" +
+                        "Sum numbers: %d\n\t" +
+                        "Avg numbers %d\n", key, count, min, max, sum, avg);
             } else if (mapStatistic.get(key) != null && key.contains("floats")) {
                 int count = mapStatistic.get(key).size();
 
@@ -68,11 +68,11 @@ public class StatisticFile {
                 float sum = list.stream().reduce(Float::sum).orElse(0f);
                 float avg = count != 0 ? sum / count : 0;
 
-                System.out.printf("В файл \"%s\" заисано: %d вещественных чисел.\n\t" +
-                        "Минимальное число: %f\n\t" +
-                        "Максимальное число: %f\n\t" +
-                        "Суииа чисел: %f\n\t" +
-                        "Среднее: %f\n", fullNameFile, count, min, max, sum, avg);
+                System.out.printf("In file \"%s\" added %d numbers.\n\t" +
+                        "Min number: %f\n\t" +
+                        "Max number: %f\n\t" +
+                        "Sum numbers: %f\n\t" +
+                        "Avg numbers: %f\n", key, count, min, max, sum, avg);
             }
         }
     }

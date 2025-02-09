@@ -40,11 +40,11 @@ public class App {
         createFile.create(app.files, app.path, app.append);
 
         if (app.briefStatistics) {
-            statisticFile.getBriefStatistics(app.prefix);
+            statisticFile.getBriefStatistics();
         }
 
         if (app.fullStatistics) {
-            statisticFile.getFullStatistics(app.prefix);
+            statisticFile.getFullStatistics();
         }
     }
 }

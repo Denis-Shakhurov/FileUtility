@@ -18,11 +18,15 @@ public class CreateFile {
     public void create(List<String> files, String path, boolean append) throws IOException {
         Util util = new Util();
         Path pathFile = util.fileToPath(files.get(0));
-        Path parent = path == null ? pathFile.getParent() : util.fileToPath(path);
+        Path parent = path == null ? pathFile.getParent() : Paths.get(path);
 
         Map<String, List<String>> map = parserFile.getMap();
 
         for (String key : map.keySet()) {
+            if (!Files.exists(parent)) {
+                Files.createDirectories(parent);
+            }
+
             String newFileName = key + ".txt";
             Path newPathFile = parent.resolve(newFileName);
 
