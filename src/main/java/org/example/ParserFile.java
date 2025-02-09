@@ -1,7 +1,5 @@
 package org.example;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,39 +15,38 @@ public class ParserFile {
     }
 
     public void parse(List<String> files, String prefix) {
-        String fileIntegers = prefix != null ? prefix + "integers" : "integers";
-        String fileStrings = prefix != null ? prefix + "strings" : "strings";
-        String fileFloats = prefix != null ? prefix + "floats" : "floats";
+        if (!files.isEmpty()) {
+            String fileIntegers = prefix != null ? prefix + "integers" : "integers";
+            String fileStrings = prefix != null ? prefix + "strings" : "strings";
+            String fileFloats = prefix != null ? prefix + "floats" : "floats";
 
-        map.put(fileIntegers, new ArrayList<>());
-        map.put(fileStrings, new ArrayList<>());
-        map.put(fileFloats, new ArrayList<>());
+            map.put(fileIntegers, new ArrayList<>());
+            map.put(fileStrings, new ArrayList<>());
+            map.put(fileFloats, new ArrayList<>());
 
-        for (String file : files) {
-            Path path = util.fileToPath(file);
+            for (String file : files) {
+                Path path = util.fileToPath(file);
 
-            List<String> lines = null;
-            try {
-                lines = Files.readAllLines(path);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+                List<String> lines = util.readFromFile(path);
 
-            for (String line : lines) {
-                if (isLong(line)) {
-                    map.get(fileIntegers).add(line);
-                } else if (isFloat(line)) {
-                    map.get(fileFloats).add(line);
-                } else {
-                    map.get(fileStrings).add(line);
+                for (String line : lines) {
+                    if (isLong(line)) {
+                        map.get(fileIntegers).add(line);
+                    } else if (isFloat(line)) {
+                        map.get(fileFloats).add(line);
+                    } else {
+                        map.get(fileStrings).add(line);
+                    }
+                }
+
+                for (String key : map.keySet()) {
+                    if (map.get(key).isEmpty()) {
+                        map.remove(key);
+                    }
                 }
             }
-
-            for (String key : map.keySet()) {
-                if (map.get(key).isEmpty()) {
-                    map.remove(key);
-                }
-            }
+        } else {
+            System.out.println("File name not specified!");
         }
     }
 
