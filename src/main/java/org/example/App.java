@@ -16,13 +16,13 @@ public class App {
     private String prefix;
 
     @Parameter(names = {"-a"}, description = "Append in files")
-    private boolean append = false;
+    private boolean isAppend = false;
 
     @Parameter(names = {"-s"}, description = "Brief statistics")
-    private boolean briefStatistics = false;
+    private boolean isBriefStatistics = false;
 
     @Parameter(names = {"-f"}, description = "Full statistics")
-    private boolean fullStatistics = false;
+    private boolean isFullStatistics = false;
 
     @Parameter(description = "Input files")
     private List<String> files = new ArrayList<>();
@@ -37,14 +37,8 @@ public class App {
 
         parserFile.parse(app.files, app.prefix);
 
-        createFile.create(app.files, app.path, app.append);
+        createFile.create(app.files, app.path, app.isAppend);
 
-        if (app.briefStatistics) {
-            statisticFile.getBriefStatistics();
-        }
-
-        if (app.fullStatistics) {
-            statisticFile.getFullStatistics();
-        }
+        statisticFile.printStatistics(app.isBriefStatistics, app.isFullStatistics);
     }
 }

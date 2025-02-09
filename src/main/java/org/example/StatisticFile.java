@@ -1,48 +1,71 @@
 package org.example;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class StatisticFile {
     private final ParserFile parserFile;
-    private final Map<String, List<String>> mapStatistic;
+    private final Map<String, List<String>> map;
+
+    private final String INTEGERS = "integers";
+    private final String FLOATS = "floats";
+    private final String STRINGS = "strings";
+
+    private final Map<String, Map<String, String>> mapStatistic = new HashMap<>();
 
     public StatisticFile(ParserFile parserFile) {
         this.parserFile = parserFile;
-        mapStatistic = parserFile.getMap();
+        map = parserFile.getMap();
     }
 
-    public void getBriefStatistics() {
+    public void printStatistics(boolean isBriefStatistics, boolean isFullStatistics) {
+        getStatistics();
 
-        for (String key : mapStatistic.keySet()) {
+        if (isBriefStatistics) {
+            mapStatistic.forEach((k, v) -> {
+                System.out.printf("In file \"%s\" added %s elements.\n", k, v.get("count"));
+            });
+        }
 
-            if (mapStatistic.get(key) != null) {
-                int count = mapStatistic.get(key).size();
-                System.out.printf("In file \"%s\" added %d elements.\n", key, count);
-            }
+        if (isFullStatistics) {
+            mapStatistic.forEach((k, v) -> {
+                System.out.printf("In file \"%s\" added %s elements.\n", k, v.get("count"));
+                v.forEach((k2, v2) -> {
+                    if (!k2.equals("count")) {
+                        System.out.println("\t" + k2 + ": " + v2);
+                    }
+                });
+            });
         }
     }
 
-    public void getFullStatistics() {
+    private void getStatistics() {
 
-        for (String key : mapStatistic.keySet()) {
+        for (String key : map.keySet()) {
 
-            if (mapStatistic.get(key) != null && key.contains("strings")) {
-                int count = mapStatistic.get(key).size();
+            if (map.get(key) != null && key.contains(STRINGS)) {
+                mapStatistic.put(key, new LinkedHashMap<>());
 
-                List<Integer> list = mapStatistic.get(key).stream()
+                int count = map.get(key).size();
+
+                List<Integer> list = map.get(key).stream()
                         .map(String::length)
                         .toList();
                 int minLength = list.stream().min(Integer::compareTo).orElse(0);
                 int maxLength = list.stream().max(Integer::compareTo).orElse(0);
 
-                System.out.printf("In file \"%s\" added %d lines.\n\t" +
-                        "Min length line: %d\n\t" +
-                        "Max length line: %d\n", key, count, minLength, maxLength);
-            } else if (mapStatistic.get(key) != null && key.contains("integers")) {
-                int count = mapStatistic.get(key).size();
+                mapStatistic.get(key).put("count", String.valueOf(count));
+                mapStatistic.get(key).put("Min length", String.valueOf(minLength));
+                mapStatistic.get(key).put("Max length", String.valueOf(maxLength));
 
-                List<Long> list = mapStatistic.get(key).stream()
+            } else if (map.get(key) != null && key.contains(INTEGERS)) {
+                mapStatistic.put(key, new LinkedHashMap<>());
+
+                int count = map.get(key).size();
+
+                List<Long> list = map.get(key).stream()
                         .map(Long::parseLong)
                         .toList();
 
@@ -51,15 +74,18 @@ public class StatisticFile {
                 long sum = list.stream().reduce(Long::sum).orElse(0L);
                 long avg = count != 0 ? sum / count : 0;
 
-                System.out.printf("In file \"%s\" added %d numbers.\n\t" +
-                        "Min number: %d\n\t" +
-                        "Max number: %d\n\t" +
-                        "Sum numbers: %d\n\t" +
-                        "Avg numbers %d\n", key, count, min, max, sum, avg);
-            } else if (mapStatistic.get(key) != null && key.contains("floats")) {
-                int count = mapStatistic.get(key).size();
+                mapStatistic.get(key).put("count", String.valueOf(count));
+                mapStatistic.get(key).put("Min number", String.valueOf(min));
+                mapStatistic.get(key).put("Max number", String.valueOf(max));
+                mapStatistic.get(key).put("Sum number", String.valueOf(sum));
+                mapStatistic.get(key).put("Avg number", String.valueOf(avg));
 
-                List<Float> list = mapStatistic.get(key).stream()
+            } else if (map.get(key) != null && key.contains(FLOATS)) {
+                mapStatistic.put(key, new LinkedHashMap<>());
+
+                int count = map.get(key).size();
+
+                List<Float> list = map.get(key).stream()
                         .map(Float::parseFloat)
                         .toList();
 
@@ -68,11 +94,11 @@ public class StatisticFile {
                 float sum = list.stream().reduce(Float::sum).orElse(0f);
                 float avg = count != 0 ? sum / count : 0;
 
-                System.out.printf("In file \"%s\" added %d numbers.\n\t" +
-                        "Min number: %f\n\t" +
-                        "Max number: %f\n\t" +
-                        "Sum numbers: %f\n\t" +
-                        "Avg numbers: %f\n", key, count, min, max, sum, avg);
+                mapStatistic.get(key).put("count", String.valueOf(count));
+                mapStatistic.get(key).put("Min number", String.valueOf(min));
+                mapStatistic.get(key).put("Max number", String.valueOf(max));
+                mapStatistic.get(key).put("Sum number", String.valueOf(sum));
+                mapStatistic.get(key).put("Avg number", String.valueOf(avg));
             }
         }
     }
