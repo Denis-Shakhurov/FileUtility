@@ -57,7 +57,7 @@ public class Util {
         try {
             list = Files.readAllLines(path);
         } catch (IOException e) {
-            System.out.println(e.getMessage() + " - File not exists!");
+            System.out.println(e.getMessage() + " - File not exists or invalid file name");
         }
         return list;
     }

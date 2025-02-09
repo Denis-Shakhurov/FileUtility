@@ -3,7 +3,6 @@ package org.example;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class App {
     @Parameter(description = "Input files")
     private List<String> files = new ArrayList<>();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         App app = new App();
         JCommander.newBuilder().addObject(app).build().parse(args);
 

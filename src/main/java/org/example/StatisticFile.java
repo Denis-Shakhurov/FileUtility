@@ -7,7 +7,6 @@ import java.util.Map;
 
 public class StatisticFile {
     private final ParserFile parserFile;
-    private final Map<String, List<String>> map;
 
     private final String INTEGERS = "integers";
     private final String FLOATS = "floats";
@@ -17,7 +16,6 @@ public class StatisticFile {
 
     public StatisticFile(ParserFile parserFile) {
         this.parserFile = parserFile;
-        map = parserFile.getMap();
     }
 
     public void printStatistics(boolean isBriefStatistics, boolean isFullStatistics) {
@@ -42,6 +40,7 @@ public class StatisticFile {
     }
 
     private void getStatistics() {
+        Map<String, List<String>> map = parserFile.getMap();
 
         for (String key : map.keySet()) {
 
