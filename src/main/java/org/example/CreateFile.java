@@ -20,15 +20,14 @@ public class CreateFile {
 
             Map<String, List<String>> map = parserFile.getMap();
 
-            for (String key : map.keySet()) {
+            for (String fileName : map.keySet()) {
                 util.createDirectory(parent);
 
-                String newFileName = key + ".txt";
-                Path newPathFile = parent.resolve(newFileName);
+                Path newPathFile = parent.resolve(fileName);
 
                 util.createFile(newPathFile);
 
-                util.writeToFile(map.get(key), newPathFile, isAppend);
+                util.writeToFile(map.get(fileName), newPathFile, isAppend);
             }
         }
     }

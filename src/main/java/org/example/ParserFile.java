@@ -9,15 +9,26 @@ import java.util.Map;
 public class ParserFile {
     private final Map<String, List<String>> map = new HashMap<>();
     private final Util util = new Util();
+    private final String INTEGERS = "integers";
+    private final String FLOATS = "floats";
+    private final String STRINGS = "strings";
 
     public Map<String, List<String>> getMap() {
         return map;
     }
 
     public void parse(List<String> files, String prefix) {
-        String fileIntegers = prefix != null ? prefix + "integers" : "integers";
-        String fileStrings = prefix != null ? prefix + "strings" : "strings";
-        String fileFloats = prefix != null ? prefix + "floats" : "floats";
+        String type = getTypeFile(files);
+
+        String fileIntegers = prefix != null
+                ? prefix + INTEGERS + type
+                : INTEGERS + type;
+        String fileStrings = prefix != null
+                ? prefix + STRINGS + type
+                : STRINGS + type;
+        String fileFloats = prefix != null
+                ? prefix + FLOATS + type
+                : FLOATS + type;
 
         map.put(fileIntegers, new ArrayList<>());
         map.put(fileStrings, new ArrayList<>());
@@ -65,5 +76,15 @@ public class ParserFile {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    private String getTypeFile(List<String> files) {
+        String type = "";
+
+        if (!files.isEmpty()) {
+            String file = files.get(0);
+            type = file.substring(file.lastIndexOf("."));
+        }
+        return type;
     }
 }
