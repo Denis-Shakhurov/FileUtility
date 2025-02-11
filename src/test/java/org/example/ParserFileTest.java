@@ -38,7 +38,7 @@ public class ParserFileTest {
     @Test
     @DisplayName("Remove empty categories from final map")
     public void removeEmptyCategoriesTest() {
-        List<String> files = List.of("src/test/resources/empty.txt");
+        List<String> files = List.of("src/test/resources/emptyTest.txt");
 
         parserFile.parse(files, null);
 
@@ -62,7 +62,7 @@ public class ParserFileTest {
     @Test
     @DisplayName("Handle file with only one type of data")
     public void parseSingleTypeContentFileTest() {
-        List<String> files = List.of("src/test/resources/integers.txt");
+        List<String> files = List.of("src/test/resources/integersTest.txt");
 
         parserFile.parse(files, null);
 
