@@ -12,12 +12,12 @@ ___
 
 Пример запуска утилиты:
 
-    java -jar util.jar -s -a -p sample- in1.txt in2.txt
+`java -jar util.jar -s -a -p sample- in1.txt in2.txt`
 ___
 Программа написана с использованием: Java 18 | [Apache Maven 3.8.7](https://maven.apache.org/) | [JCommander](https://jcommander.org/)
 ___
 ### Установка:
-`mvn clean install`
+    mvn clean install
 ___
 ### Запуск:
-`java -jar <path to file jar>FileUtility-1.0-SNAPSHOT.jar fileName1.txt fileNmae2.txt`
+    java -jar <path to file jar>FileUtility-1.0-SNAPSHOT.jar fileName1.txt fileNmae2.txt
