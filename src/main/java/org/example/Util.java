@@ -1,5 +1,6 @@
 package org.example;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -54,8 +55,10 @@ public class Util {
 
     public List<String> readFromFile(Path path) {
         List<String> list = new ArrayList<>();
-        try {
-            list = Files.readAllLines(path);
+        try (BufferedReader br = Files.newBufferedReader(path)) {
+            while (br.ready()) {
+                list.add(br.readLine());
+            }
         } catch (IOException e) {
             System.out.println(e.getMessage() + " - File not exists or invalid file name");
         }

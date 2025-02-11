@@ -50,7 +50,7 @@
     </dependencies>
 
     <build>
-
+        <finalName>FileUtility</finalName>
         <resources>
             <resource>
                 <directory>${project.build.directory}dependency</directory>

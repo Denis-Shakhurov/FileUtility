@@ -20,4 +20,4 @@ ___
     mvn clean install
 ___
 ### Запуск:
-    java -jar <path to file jar>FileUtility-1.0-SNAPSHOT.jar fileName1.txt fileNmae2.txt
+    java -jar <path to file jar>FileUtility.jar fileName1.txt fileNmae2.txt
