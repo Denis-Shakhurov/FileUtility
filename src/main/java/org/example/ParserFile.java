@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class ParserFile {
     private final Map<String, List<String>> map = new HashMap<>();
-    private final Util util = new Util();
     private final String INTEGERS = "integers";
     private final String FLOATS = "floats";
     private final String STRINGS = "strings";
@@ -18,6 +17,7 @@ public class ParserFile {
     }
 
     public void parse(List<String> files, String prefix) {
+        Util util = new Util();
         String type = getTypeFile(files);
 
         String fileIntegers = prefix != null
@@ -56,6 +56,9 @@ public class ParserFile {
                     .removeIf(entry -> entry.getValue().isEmpty());
 
         } else {
+            map.entrySet()
+                    .removeIf(entry -> entry.getValue().isEmpty());
+
             System.out.println("File name not specified! Provide a file name and try again.");
         }
     }
